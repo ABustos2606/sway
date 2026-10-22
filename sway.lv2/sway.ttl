@@ -1,0 +1,130 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (c) 2026 Alejandro Bustos
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix pprops: <http://lv2plug.in/ns/ext/port-props#> .
+@prefix units: <http://lv2plug.in/ns/extensions/units#> .
+
+<https://github.com/ABustos2606/sway#sway>
+    a lv2:Plugin, lv2:UtilityPlugin ;
+    doap:name "Sway" ;
+    doap:license <https://spdx.org/licenses/GPL-2.0-or-later> ;
+    doap:maintainer [ foaf:name "Alejandro Bustos" ; foaf:homepage <https://github.com/ABustos2606> ] ;
+    doap:homepage <https://github.com/ABustos2606/sway> ;
+    rdfs:comment "Moves a control signal between two set points, as a sweep, a jump or random steps; one stomp starts or reverses it." ;
+    lv2:minorVersion 1 ;
+    lv2:microVersion 0 ;
+    lv2:optionalFeature lv2:hardRTCapable ;
+    lv2:port
+    [
+        a lv2:OutputPort, lv2:CVPort ;
+        lv2:index 0 ;
+        lv2:symbol "out" ;
+        lv2:name "Out"
+    ],
+    [
+        a lv2:InputPort, lv2:CVPort ;
+        lv2:index 1 ;
+        lv2:symbol "go" ;
+        lv2:name "Go" ;
+        lv2:default 0.0 ;
+        lv2:minimum 0.0 ;
+        lv2:maximum 1.0
+    ],
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 2 ;
+        lv2:symbol "shape" ;
+        lv2:name "Shape" ;
+        lv2:default 0 ;
+        lv2:minimum 0 ;
+        lv2:maximum 5 ;
+        lv2:portProperty lv2:integer, lv2:enumeration ;
+        lv2:scalePoint [ rdfs:label "Sweep" ; rdf:value 0 ] , [ rdfs:label "Jump" ; rdf:value 1 ] ,
+            [ rdfs:label "One sweep" ; rdf:value 2 ] , [ rdfs:label "Smooth random" ; rdf:value 3 ] ,
+            [ rdfs:label "Step random" ; rdf:value 4 ] , [ rdfs:label "One random" ; rdf:value 5 ]
+    ],
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 3 ;
+        lv2:symbol "point_a" ;
+        lv2:name "Point A" ;
+        lv2:default 0.0 ;
+        lv2:minimum -1.0 ;
+        lv2:maximum 1.0
+    ],
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 4 ;
+        lv2:symbol "point_b" ;
+        lv2:name "Point B" ;
+        lv2:default 1.0 ;
+        lv2:minimum -1.0 ;
+        lv2:maximum 1.0
+    ],
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 5 ;
+        lv2:symbol "time" ;
+        lv2:name "Time" ;
+        lv2:default 1.0 ;
+        lv2:minimum 0.02 ;
+        lv2:maximum 30.0 ;
+        lv2:portProperty pprops:logarithmic ;
+        units:unit units:s
+    ],
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 6 ;
+        lv2:symbol "sync" ;
+        lv2:name "Sync" ;
+        lv2:default 0 ;
+        lv2:minimum 0 ;
+        lv2:maximum 1 ;
+        lv2:portProperty lv2:integer, lv2:toggled
+    ],
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 7 ;
+        lv2:symbol "bpm" ;
+        lv2:name "BPM" ;
+        lv2:default 120.0 ;
+        lv2:minimum 20.0 ;
+        lv2:maximum 300.0 ;
+        units:unit units:bpm
+    ],
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 8 ;
+        lv2:symbol "beats" ;
+        lv2:name "Beats" ;
+        lv2:default 4 ;
+        lv2:minimum 0 ;
+        lv2:maximum 7 ;
+        lv2:portProperty lv2:integer, lv2:enumeration ;
+        lv2:scalePoint [ rdfs:label "1/4 beat" ; rdf:value 0 ] , [ rdfs:label "1/2 beat" ; rdf:value 1 ] ,
+            [ rdfs:label "1 beat" ; rdf:value 2 ] , [ rdfs:label "2 beats" ; rdf:value 3 ] ,
+            [ rdfs:label "1 bar" ; rdf:value 4 ] , [ rdfs:label "2 bars" ; rdf:value 5 ] ,
+            [ rdfs:label "4 bars" ; rdf:value 6 ] , [ rdfs:label "8 bars" ; rdf:value 7 ]
+    ],
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 9 ;
+        lv2:symbol "start" ;
+        lv2:name "Start moving" ;
+        lv2:default 1 ;
+        lv2:minimum 0 ;
+        lv2:maximum 1 ;
+        lv2:portProperty lv2:integer, lv2:toggled
+    ],
+    [
+        a lv2:OutputPort, lv2:ControlPort ;
+        lv2:index 10 ;
+        lv2:symbol "position" ;
+        lv2:name "Position" ;
+        lv2:minimum 0.0 ;
+        lv2:maximum 1.0
+    ] .
